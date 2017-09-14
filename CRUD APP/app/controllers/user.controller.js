@@ -8,7 +8,7 @@
         .module('app')
         .controller('userController',Controller);
 
-    Controller.$inject=['$scope','$rootScope','userService','$state','$stateParams'];
+    Controller.$inject=['$scope','$rootScope','userService','$state','$stateParams','$window'];
 
     function Controller($scope,$rootScope,userService,$state,$stateParams) {
         $scope.users = [];
@@ -25,7 +25,9 @@
                 if(confirm('Are you sure to delete?')){
                     userService.deleteUser(id).then(function (res) {
                         if(res.data == "deleted"){
+                            $window.reload();
                             $state.go("users",{},{reload: true});
+
                         }
                     }).catch(function (err) {
                         console.log(err);
